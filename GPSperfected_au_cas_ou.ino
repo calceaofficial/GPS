@@ -33,13 +33,24 @@ void loop() {
       alt = gps.altitude.meters();
       vitesse = gps.speed.kmph();
       nbre_sat = gps.satellites.value();
- 
-      Serial.println("-------- FIX GPS ------------");                                // rendu moniteur série
-      Serial.print("LATITUDE="); Serial.println(latitude);
-      Serial.print("LONGITUDE="); Serial.println(longitude);
-      Serial.print("ALTITUDE (m) ="); Serial.println(alt);
-      Serial.print("VITESSE (km/h)="); Serial.println(vitesse);
-      Serial.print("NOMBRE SATTELLITES="); Serial.println(nbre_sat);
+
+      Serial.print("JourneyMap.RouteCoordinates.Add(new Position("); printDouble(latitude, 1000000); Serial.print(", "); printDouble(longitude, 1000000); Serial.println("));");
     }
   }
 }
+
+
+void printDouble( double val, unsigned int precision){
+// prints val with number of decimal places determine by precision
+// NOTE: precision is 1 followed by the number of zeros for the desired number of decimial places
+// example: printDouble( 3.1415, 100); // prints 3.14 (two decimal places)
+
+   Serial.print (int(val));  //prints the int part
+   Serial.print("."); // print the decimal point
+   unsigned int frac;
+   if(val >= 0)
+       frac = (val - int(val)) * precision;
+   else
+       frac = (int(val)- val ) * precision;
+   Serial.print(frac,DEC) ;
+} 
